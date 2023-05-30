@@ -36,8 +36,30 @@ kubectl expose pod meu-nginx --type=NodePort
 kubectl delete service meu-nginx
 ```
 
-# Listar todos os recursos do cluster:
+## Listar todos os recursos do cluster:
 
 ```bash
 kubectl get all
+```
+
+## Acessar o pod:
+
+O `attach` cria uma conexão com o pod, mas não abre um terminal. Ele faz o attach no processo principal do pod.
+O `exec` cria uma conexão com o pod e abre um terminal.
+
+```bash
+kubectl attach meu-nginx -c meu-nginx -it
+
+# Utilizando o comando exec:
+kubectl exec -it meu-nginx -c meu-nginx -- /bin/bash
+```
+
+## Logs do pod:
+
+```bash
+# Para visualizar os logs de todos os containers do pod, de forma contínua:
+kubectl logs meu-nginx -f
+
+# Para visualizar os logs de um container específico de pod:
+kubectl logs meu-nginx -c meu-nginx
 ```
