@@ -2,18 +2,41 @@ apiVersion: v1
 kind: Pod
 metadata:
   labels:
-    run: girus
-    service: webserver
-  name: girus
+    run: giropops
+  name: giropops
 spec:
-  containers:
+  containers:   
   - image: nginx
-    name: nginx
-    resources: {}
-  - image: busybox 
-    name: busybox
+    name: webserver
+    ports:
+    - containerPort: 80
+    resources:
+      limits:
+        cpu: "0.5"
+        memory: "128Mi"
+      requests:
+        cpu: "0.3"
+        memory: "64Mi"
+  - image: ubuntu
+    name: api
     args:
     - sleep
-    - "600"
+    - "1800"
+    ports:
+    - containerPort: 3000
+    volumeMounts:
+    - mountPath: /giropops
+      name: primeiro-emptydir
+    resources:
+      limits:
+        cpu: "0.5"
+        memory: "128Mi"
+      requests:
+        cpu: "0.3"
+        memory: "64Mi"
   dnsPolicy: ClusterFirst
   restartPolicy: Always
+  volumes:
+  - name: primeiro-emptydir
+    emptyDir:
+      sizeLimit: "256Mi"
