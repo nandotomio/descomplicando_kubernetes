@@ -63,3 +63,36 @@ kubectl logs meu-nginx -f
 # Para visualizar os logs de um container específico de pod:
 kubectl logs meu-nginx -c meu-nginx
 ```
+
+## Criar um deployment:
+
+```bash
+k create deployment --image nginx --replicas 3 nginx-deployment --dry-run=client -o yaml > deployment.yaml
+```
+
+# Para monitorar o deployment:
+
+```bash
+kubectl rollout status deployment -n giropops nginx-deployment
+```
+
+# Para fazer o rollback:
+
+```bash
+# Para ver o histórico de rollout:
+kubectl rollout history deployment -n giropops nginx-deployment
+# Para ver uma revisão específica:
+kubectl rollout history deployment -n giropops nginx-deployment --revision 1
+# Para fazer o rollback:
+kubectl rollout undo deployment -n giropops nginx-deployment
+# Para fazer o rollback para uma revisão específica:
+kubectl rollout undo deployment -n giropops nginx-deployment --to-revision 1
+# Para pausar o rollout:
+kubectl rollout pause deployment -n giropops nginx-deployment
+# Para retomar o rollout:
+kubectl rollout resume deployment -n giropops nginx-deployment
+# Para restartar o rollout:
+kubectl rollout restart deployment -n giropops nginx-deployment
+# Para escalar o deployment:
+kubectl scale deployment -n giropops nginx-deployment --replicas 5
+```
